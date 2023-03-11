@@ -1,7 +1,18 @@
-#pragma once
+#ifndef PARTICLE_HPP
+#define PARTICLE_HPP
 
 template<typename T>
 struct vec3 {
+	vec3() {
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	vec3(T x1, T y1, T z1) {
+		x = x1;
+		y = y1;
+		z = z1;
+	}
 	union {
 		T x;
 		T i;
@@ -40,7 +51,7 @@ public:
 		radius = 0.0f;
 	}
 	particle(vec3<T> position_, vec3<T> velocity_, vec3<T> accleration_, T mass_, T temp_, T radius_) :
-		position{ position_ },velocity{velcoity_},accleration{accleration_}
+		position{ position_ },velocity{velocity_},accleration{accleration_}
 	{
 		mass = mass_;
 		temp = temp_;
@@ -189,3 +200,4 @@ private:
 	T mass;
 	T radius;
 };
+#endif
