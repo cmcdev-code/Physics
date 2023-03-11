@@ -18,5 +18,8 @@
     <ClInclude Include="PARTICLE.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="logic_for_particles.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
