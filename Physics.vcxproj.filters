@@ -24,6 +24,9 @@
     <ClInclude Include="graphics_for_particles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="particle_collection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

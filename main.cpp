@@ -13,9 +13,9 @@ int main()
     
     graphics test(new_window);
     
+    test.render_to_screen();
+
    
-
-
-
+   
     return 0;
 }

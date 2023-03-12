@@ -137,6 +137,7 @@
     <ClInclude Include="graphics_for_particles.hpp" />
     <ClInclude Include="logic_for_particles.hpp" />
     <ClInclude Include="PARTICLE.hpp" />
+    <ClInclude Include="particle_collection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
