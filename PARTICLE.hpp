@@ -61,60 +61,48 @@ public:
 	T get_x_position() const {
 		return position.x;
 	}
-	T get_i_position() const {
-		return position.i;
-	}
+ #define get_i_position get_x_position
+ 
 	T get_y_position() const {
 		return position.y;
 	}
-	T get_j_position() const {
-		return position.j;
-	}
+	#define get_j_position get_y_position
+
 	T get_z_position() const {
 		return position.z;
 	}
-	T get_k_position() const {
-		return position.k;
-	}
+	#define get_k_position get_z_position
 
 	T get_x_velocity() const {
 		return velocity.x;
 	}
-	T get_i_velocity() const {
-		return velocity.i;
-	}
+ #define get_j_velocity get_x_velocity
+
 	T get_y_velocity() const {
 		return velocity.y;
 	}
-	T get_j_velocity() const {
-		return velocity.j;
-	}
+ #define get_j_velocity get_y_velocity
+
 	T get_z_velocity() const {
 		return velocity.z;
 	}
-	T get_k_velocity() const {
-		return velocity.k;
-	}
+ #define get_k_velocity get_z_velocity
 
 
 	T get_x_accleration() const {
 		return accleration.x;
 	}
-	T get_i_accleration() const {
-		return accleration.i;
-	}
+	#define get_i_accleration get_x_accleration
+
 	T get_y_accleration() const {
 		return accleration.y;
 	}
-	T get_j_accleration() const {
-		return accleration.j;
-	}
+	#define get_j_accleration get_y_accleration
+
 	T get_z_accleration() const {
 		return accleration.z;
 	}
-	T get_k_accleration() const {
-		return accleration.k;
-	}
+ #define get_k_accleration get_z_accleration
 	
 	void set_x_position(T xP) {
 		position.x = xP;
