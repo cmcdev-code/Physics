@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="graphics_for_particles.hpp" />
     <ClInclude Include="logic_for_particles.hpp" />
     <ClInclude Include="PARTICLE.hpp" />
   </ItemGroup>

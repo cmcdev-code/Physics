@@ -61,7 +61,7 @@ public:
 	T get_x_position() const {
 		return position.x;
 	}
- #define get_i_position get_x_position
+	#define get_i_position get_x_position
  
 	T get_y_position() const {
 		return position.y;
@@ -76,18 +76,17 @@ public:
 	T get_x_velocity() const {
 		return velocity.x;
 	}
- #define get_j_velocity get_x_velocity
+	#define get_j_velocity get_x_velocity
 
 	T get_y_velocity() const {
 		return velocity.y;
 	}
- #define get_j_velocity get_y_velocity
+	#define get_j_velocity get_y_velocity
 
 	T get_z_velocity() const {
 		return velocity.z;
 	}
- #define get_k_velocity get_z_velocity
-
+	#define get_k_velocity get_z_velocity
 
 	T get_x_accleration() const {
 		return accleration.x;
@@ -102,7 +101,7 @@ public:
 	T get_z_accleration() const {
 		return accleration.z;
 	}
- #define get_k_accleration get_z_accleration
+	#define get_k_accleration get_z_accleration
 	
 	void set_x_position(T xP) {
 		position.x = xP;
