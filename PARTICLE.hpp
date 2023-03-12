@@ -119,59 +119,48 @@ public:
 	void set_x_position(T xP) {
 		position.x = xP;
 	}
-	void set_i_position(T iP) {
-		position.i = iP;
-	}
+	#define set_i_position set_x_position
+
 	void set_y_position(T yP) {
 		position.y = yP;
 	}
-	void set_j_position(T jP) {
-		position.j = jP;
-	}
+	#define set_j_position set_y_postion
+
 	void set_z_position(T zP) {
 		position.z = zP;
 	}
-	void set_k_position(T kP) {
-		position.k = kP;
-	}
+	#define set_k_position set_z_position
 
 	void set_x_velocity(T xV) {
 		velocity.x = xV;
 	}
-	void set_i_velocity(T iV) {
-		velocity.i = iV;
-	}
+	#define set_i_velocity set_x_velocity
+
 	void set_y_velocity(T yV) {
 		velocity.y = yV;
 	}
-	void set_j_velocity(T jV) {
-		velocity.j = jV;
-	}
+	#define set_j_velocity set_y_velocity
+
 	void set_z_velocity(T zV) {
 		velocity.z = zV;
 	}
-	void set_k_velocity(T kV) {
-		velocity.k = kV;
-	}
+	#define set_k_velocity set_z_velocity
 
 	void set_x_accleration(T xA) {
 		accleration.x = xA;
 	}
-	void set_i_accleration(T iA) {
-		accleration.i = iA;
-	}
+	#define set_i_accleration set_x_accleration
+
 	void set_y_accleration(T yA) {
 		accleration.y = yA;
 	}
-	void set_j_accleration(T jA) {
-		accleration.j = jA;
-	}
+	#define set_j_accleration set_y_accleration 
+
 	void set_z_accleration(T zA) {
 		accleration.z = zA;
 	}
-	void set_k_accleration(T kA) {
-		accleration.k = kA;
-	}
+	#define set_k_accleration set_z_accleration
+
 	T get_temp() const {
 		return temp;
 	}
