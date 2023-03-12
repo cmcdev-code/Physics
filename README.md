@@ -9,3 +9,4 @@ Some things that I plan on adding into this version in not particular order..
   A easy way to see the total ammount of energy in the system.
   A way to test differnt changes and see how they effect the system easier. 
  
+If you are interested in running this right now it currently only works in Visual Studio specifically windows only on x64
