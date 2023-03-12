@@ -1,4 +1,6 @@
 #include "graphics_for_particles.hpp"
+#include "PARTICLE.hpp"
+#include <iostream>
 
 int main()
 {
@@ -15,7 +17,5 @@ int main()
     
     test.render_to_screen();
 
-   
-   
     return 0;
 }

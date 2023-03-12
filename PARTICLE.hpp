@@ -166,6 +166,24 @@ public:
 	void set_radius(T r) {
 		radius = r;
 	}
+	
+	bool operator==(const particle& particle_2) const {
+		return (temp == particle_2.get_temp() &&
+			mass == particle_2.get_mass() &&
+			radius == particle_2.get_radius() &&
+			position.x == particle_2.get_x_position() &&
+			position.y == particle_2.get_y_position() &&
+			position.z == particle_2.get_z_position() &&
+			velocity.x == particle_2.get_x_velocity() &&
+			velocity.y == particle_2.get_y_velocity() &&
+			velocity.z == particle_2.get_z_velocity() &&
+			accleration.x == particle_2.get_x_accleration() &&
+			accleration.y == particle_2.get_y_accleration() &&
+			accleration.z == particle_2.get_z_accleration());
+	}
+	bool operator!=(const particle& particle_2) const {
+		return !(*this == particle_2);
+	}
 
 private:
 	vec3<T> position;
