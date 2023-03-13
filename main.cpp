@@ -27,10 +27,11 @@ int main()
 
     int a = 0;
     while (a < 1000000) {
-
-        testing2.render_window();
+        std::cout << "A :" << a << "\n";
+        if (a % 1 == 0) { testing2.render_window(); }
         testing2.update_all_particle_states();
         testing2.sync_graphics_and_particle_positions();
+        a++;
     }
 
 
