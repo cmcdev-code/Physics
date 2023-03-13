@@ -140,6 +140,7 @@
     <ClInclude Include="PARTICLE.hpp" />
     <ClInclude Include="particle_collection.hpp" />
     <ClInclude Include="particle_interactions.hpp" />
+    <ClInclude Include="save_and_load.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
