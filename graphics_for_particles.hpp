@@ -12,6 +12,24 @@ struct window_construction {
 
 	unsigned int modeWidth;
 	unsigned int modeHeight;
+	window_construction(
+		float center_x = 0,
+		float center_y = 0,
+		float size_shown_x = 180,
+		float size_shown_y = 180,
+		unsigned int height_ = 10,
+		unsigned int width = 10,
+		std::string Window_name = "Debug")
+	{
+		center.x = center_x;
+		center.y = center_y;
+		size_shown.x = size_shown_x;
+		size_shown_y = size_shown_y;
+		modeHeight = height_;
+		modeWidth = width;
+		window_name = Window_name;
+	}
+
 };
 
 class graphics {

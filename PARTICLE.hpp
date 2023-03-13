@@ -1,5 +1,4 @@
-#ifndef PARTICLE_HPP
-#define PARTICLE_HPP
+#pragma once
 
 template<typename T>
 struct vec3 {
@@ -194,4 +193,3 @@ private:
 	T mass;
 	T radius;
 };
-#endif

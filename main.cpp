@@ -3,24 +3,12 @@
 #include <iostream>
 #include "particle_collection.hpp"
 #include "particle_interactions.hpp"
-
+#include "graphics_and_particles.hpp"
 
 
 int main()
 {
-    window_construction new_window;
-    new_window.window_name = "Testing";
-    new_window.modeHeight = 30;
-    new_window.modeWidth = 30;
-    new_window.size_shown.x = 300;
-    new_window.size_shown.y = 300;
-    new_window.center.x = 0;
-    new_window.center.y = 0;
-
-    graphics test(new_window);
-
-    test.render_to_screen();
-
+ 
 
     vec3<double> testing;
     testing.x = 3;
@@ -29,14 +17,23 @@ int main()
     particle<double> new_particle_testing0(testing, testing, testing, 12, 12, 12);
     particle<double> new_particle_testing1(testing, testing, testing, 12, 12, 12);
 
-    particle_collection<double> game;
-    game.particle_container.push_back(new_particle_testing0);
-    game.particle_container.push_back(new_particle_testing1);
-    for (int x = 0; x < 13; x++) {
-        particle_interaction::update_particle_position_collection(game);
-        particle_interaction::update_particle_velocity_collection(game);
-        particle_interaction::update_gravity_on_particles(game);
-        std::cout << "X :" << game.particle_container.at(0).get_x_position() << " Y: " << game.particle_container.at(0).get_y_position() << std::endl;
+    
+    
+    window_construction testing_window(0,0,1200,1200,1000,1000,"TEsting");
+    graphics_and_particles<double> testing2(testing_window);
+   
+    testing2.graphics_window.graphics_of_particles.push_back(* testing2.create_new_circle(testing, 30, testing2.graphics_window));
+    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
+
+    int a = 0;
+    while (a < 1000000) {
+
+        testing2.render_window();
+        testing2.update_all_particle_states();
+        testing2.sync_graphics_and_particle_positions();
     }
+
+
+
     return 0;
 }
