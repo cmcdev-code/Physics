@@ -1,5 +1,6 @@
 {
 "data type":"double",
+"objects": [
 { 
 "position" :{ "x": 3, "y": 3, "z": 0},
 "velocity" :{ "x": 3, "y": 3, "z": 0},
@@ -24,4 +25,173 @@
 "mass" : 100,
 "radius" : 30
 }
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+,{ 
+"position" :{ "x": 3, "y": 3, "z": 0},
+"velocity" :{ "x": 3, "y": 3, "z": 0},
+"accleration" :{ "x": 3, "y": 3, "z": 0},
+"temp" : 100,
+"mass" : 100,
+"radius" : 30
+}
+]
 }

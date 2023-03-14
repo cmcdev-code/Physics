@@ -24,14 +24,7 @@ int main()
    
     testing2.graphics_window.graphics_of_particles.push_back(* testing2.create_new_circle(testing, 30, testing2.graphics_window));
     testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.graphics_window.graphics_of_particles.push_back(*testing2.create_new_circle(testing, 30, testing2.graphics_window));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.graphics_window.graphics_of_particles.push_back(*testing2.create_new_circle(testing, 30, testing2.graphics_window));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-
-
-
-
+    
     int a = 0;
    /* while (a < 1000000) {
         std::cout << "A :" << a << "\n";
