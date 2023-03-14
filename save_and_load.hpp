@@ -7,7 +7,7 @@
 static std::string FILE_NAME() {
 	std::cout << "What is the name of the file that you would like to save the data to?" << std::endl;
 	std::string file_name="";
-	std::getline(std::cin, file_name);
+	std::getline(std::cin>>std::ws, file_name);
 	return file_name;
 }
 static short ERROR_CHECKING(short range_lower, short range_upper, std::string Message) {
@@ -28,13 +28,13 @@ static short ERROR_CHECKING(short range_lower, short range_upper, std::string Me
 template <typename T>
 static void WRITE_TO_JSON(std::ofstream& out, const particle<T>& particle_) {
 	out << "{ \n";
-		out << "position:{ x:" << particle_.get_x_position() << ", y: " << particle_.get_y_position() << ", z: " << particle_.get_z_position() << "},\n";
-		out << "velocity:{ x:" << particle_.get_x_velocity() << ", y: " << particle_.get_y_velocity() << ", z: " << particle_.get_z_velocity() << "},\n";
-		out << "accleration:{ x:" << particle_.get_x_accleration() << ", y: " << particle_.get_y_accleration() << ", z: " << particle_.get_z_accleration() << "},\n";
-		out << "temp: " << particle_.get_temp() << ",\n";
-		out << "mass: " << particle_.get_mass() << ",\n";
-		out << "radius: " << particle_.get_radius() << "\n";
-	out<<"}\n"
+		out << "\"position\" :{ \"x\": " << particle_.get_x_position() << ", \"y\": " << particle_.get_y_position() << ", \"z\": " << particle_.get_z_position() << "},\n";
+		out << "\"velocity\" :{ \"x\": " << particle_.get_x_velocity() << ", \"y\": " << particle_.get_y_velocity() << ", \"z\": " << particle_.get_z_velocity() << "},\n";
+		out << "\"accleration\" :{ \"x\": " << particle_.get_x_accleration() << ", \"y\": " << particle_.get_y_accleration() << ", \"z\": " << particle_.get_z_accleration() << "},\n";
+		out << "\"temp\" : " << particle_.get_temp() << ",\n";
+		out << "\"mass\" : " << particle_.get_mass() << ",\n";
+		out << "\"radius\" : " << particle_.get_radius() << "\n";
+		out << "}\n";
 }
 
 namespace save_to_file{
@@ -47,11 +47,22 @@ namespace save_to_file{
 		{
 		case 1:
 			std::string file_name = FILE_NAME();
-			std::ofstream out(file_name + ".csv");
+			std::ofstream out(file_name + ".json");
+			out << "{\n";
+			out << "\"data type\":" <<"\"" << std::string(typeid(T).name()) << "\"" << ",\n";
+			int counter = 0;
+			for (auto& itr : particles_.main_particles.particle_container) {
+				WRITE_TO_JSON(out, itr);
+				if (counter < particles_.main_particles.particle_container.size()-1) {
+					out << ",";
+				}
+				counter++;
+			}
+			out << "}\r";
+			out.close();
 			
 
-		default:
-			break;
+		
 		}
 		
 	}

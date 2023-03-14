@@ -4,7 +4,7 @@
 #include "particle_collection.hpp"
 #include "particle_interactions.hpp"
 #include "graphics_and_particles.hpp"
-
+#include "save_and_load.hpp"
 
 int main()
 {
@@ -24,16 +24,23 @@ int main()
    
     testing2.graphics_window.graphics_of_particles.push_back(* testing2.create_new_circle(testing, 30, testing2.graphics_window));
     testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
+    testing2.graphics_window.graphics_of_particles.push_back(*testing2.create_new_circle(testing, 30, testing2.graphics_window));
+    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
+    testing2.graphics_window.graphics_of_particles.push_back(*testing2.create_new_circle(testing, 30, testing2.graphics_window));
+    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
+
+
+
 
     int a = 0;
-    while (a < 1000000) {
+   /* while (a < 1000000) {
         std::cout << "A :" << a << "\n";
         if (a % 1 == 0) { testing2.render_window(); }
         testing2.update_all_particle_states();
         testing2.sync_graphics_and_particle_positions();
         a++;
-    }
-
+    }*/
+    save_to_file::write_to_file_particles(testing2);
 
 
     return 0;
