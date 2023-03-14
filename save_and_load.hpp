@@ -101,3 +101,9 @@ namespace save_to_file {
 		}
 	}
 }
+namespace load_from_file {
+
+	 
+
+
+}
