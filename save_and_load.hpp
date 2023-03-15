@@ -5,6 +5,7 @@
 #include <iostream>
 #include "PARTICLE.hpp"
 #include "Dependecies/json\json.hpp"
+#include <vector>
 
 static std::string FILE_NAME(bool flag=1) {
 	if (flag) {
@@ -141,6 +142,39 @@ namespace save_to_file {
 //		}
 //		]
 //}
+
+template <typename T>
+std::vector<particle<T>> read_from_file(std::ifstream& in) {
+	std::vector<particle<T>> particles_read_from_file;
+	using json = nlohmann::json;
+	json data = json::parse(in);
+	//found this here https://stackoverflow.com/questions/53324659/c-json-array-parsing-using-nlohmannjson
+	for (auto& itr : data["objects"]) {
+		vec3<T> positions;
+		vec3<T> velocitys;
+		vec3<T> acclerations;
+		T temp;
+		T mass;
+		T radius;
+		positions.x = itr["position"]["x"];
+		positions.y = itr["position"]["y"];
+		positions.z = itr["position"]["z"];
+
+		velocitys.x = itr["velocity"]["x"];
+		velocitys.y = itr["velocity"]["y"];
+		velocitys.z = itr["velocity"]["z"];
+
+		acclerations.x = itr["accleration"]["x"];
+		acclerations.y = itr["accleration"]["y"];
+		acclerations.z = itr["accleration"]["z"];
+
+		temp = itr["temp"];
+		mass = itr["mass"];
+		radius = itr["radius"];
+		particles_read_from_file.push_back(particle<T>(positions, velocitys, acclerations, temp, mass, radius));
+	}
+	return particles_read_from_file;
+}
 
 namespace load_from_file {
 	template <typename T>
