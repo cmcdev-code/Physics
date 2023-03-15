@@ -15,6 +15,12 @@ class graphics_and_particles {
 		graphics_and_particles(const window_construction& window_): graphics_window(window_) {
 			std::cout << "Window created \n";
 		}
+		graphics_and_particles(const graphics_and_particles& other)
+			: graphics_window(other.graphics_window), main_particles(other.main_particles)
+		{
+			std::cout << "Window created \n";
+		}
+
 
 		graphics graphics_window;
 		particle_collection<T> main_particles;
