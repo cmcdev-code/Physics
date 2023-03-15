@@ -33,8 +33,8 @@ int main()
         testing2.sync_graphics_and_particle_positions();
         a++;
     }*/
-    save_to_file::write_to_file_particles(testing2);
-    testing2.main_particles.particle_container = load_from_file::load_from_file_graphics_and_particles<double>();
+  /*  save_to_file::write_to_file_particles(testing2);
+    testing2.main_particles.particle_container = load_from_file::load_from_file_graphics_and_particles<double>();*/
 
     return 0;
 }

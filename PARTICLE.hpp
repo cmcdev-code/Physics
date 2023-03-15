@@ -184,7 +184,7 @@ public:
 		return !(*this == particle_2);
 	}
 
-//private:
+private:
 	vec3<T> position;
 	vec3<T> velocity;
 	vec3<T> accleration;

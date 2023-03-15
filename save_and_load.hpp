@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include "PARTICLE.hpp"
-
+#include "Dependecies/json\json.hpp"
 
 static std::string FILE_NAME(bool flag=1) {
 	if (flag) {
@@ -148,7 +148,7 @@ namespace load_from_file {
 		short user_choice = ERROR_CHECKING(1, 3, "Which file type would you like to read from?\nEnter 1 for .json\n Enter 2 for .csv\n Enter 3 for .txt");
 		if (user_choice == 1) {
 			std::string file_name = FILE_NAME();
-			return read_data<T>(file_name + ".json");
+		//	return read_data<T>(file_name + ".json");
 			
 		}
 	}
