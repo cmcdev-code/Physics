@@ -80,7 +80,7 @@ namespace save_to_file {
 			std::ofstream out(file_name + ".json");
 			out << "{\n";
 			out << "\"data type\":" << "\"" << std::string(typeid(T).name()) << "\"" << ",\n";
-			out << "\"objects\": [\n";
+			out << "\"particles\": [\n";
 			int counter = 0;
 			for (auto& itr : particles_.main_particles.particle_container) {
 				WRITE_TO_JSON(out, itr);
@@ -149,7 +149,7 @@ std::vector<particle<T>> read_from_file(std::ifstream& in) {
 	using json = nlohmann::json;
 	json data = json::parse(in);
 	//found this here https://stackoverflow.com/questions/53324659/c-json-array-parsing-using-nlohmannjson
-	for (auto& itr : data["objects"]) {
+	for (auto& itr : data["particles"]) {
 		vec3<T> positions;
 		vec3<T> velocitys;
 		vec3<T> acclerations;

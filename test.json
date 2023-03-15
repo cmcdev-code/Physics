@@ -1,6 +1,6 @@
 {
 "data type":"double",
-"objects": [
+"particles": [
 { 
 "position" :{ "x": 3, "y": 3, "z": 0},
 "velocity" :{ "x": 3, "y": 3, "z": 0},
