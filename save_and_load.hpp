@@ -25,6 +25,7 @@ static short ERROR_CHECKING(short range_lower, short range_upper, std::string Me
 		std::cout << Message << std::endl;
 		std::cin >> user_input;
 		if (user_input >= range_lower && user_input <= range_upper && std::cin.good()) {
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			return user_input;
 		}
 		else {
@@ -91,7 +92,6 @@ namespace save_to_file {
 			}
 			out << "]\n";
 			out << "}";
-			out.close();
 		}
 		if (user_choice == 2) {
 			std::string file_name = FILE_NAME();
@@ -99,7 +99,6 @@ namespace save_to_file {
 			for (auto& itr : particles_.main_particles.particle_container) {
 				WRITE_TO_CSV(out, itr);
 			}
-			out.close();
 		}
 		if (user_choice == 3) {
 			std::string file_name = FILE_NAME();
@@ -107,44 +106,12 @@ namespace save_to_file {
 			for (auto& itr : particles_.main_particles.particle_container) {
 				WRITE_TO_TXT(out, itr);
 			}
-			out.close();
-
 		}
 	}
 }
 
-//{
-//	"data type":"double",
-//		"objects" : [
-//	{
-//		"position" :{ "x": 3, "y" : 3, "z" : 0},
-//			"velocity" : { "x": 3, "y" : 3, "z" : 0},
-//			"accleration" : { "x": 3, "y" : 3, "z" : 0},
-//			"temp" : 100,
-//			"mass" : 100,
-//			"radius" : 30
-//	}
-//	, {
-//	"position" :{ "x": 3, "y" : 3, "z" : 0},
-//	"velocity" : { "x": 3, "y" : 3, "z" : 0},
-//	"accleration" : { "x": 3, "y" : 3, "z" : 0},
-//	"temp" : 100,
-//	"mass" : 100,
-//	"radius" : 30
-//	}
-//		, {
-//		"position" :{ "x": 3, "y" : 3, "z" : 0},
-//		"velocity" : { "x": 3, "y" : 3, "z" : 0},
-//		"accleration" : { "x": 3, "y" : 3, "z" : 0},
-//		"temp" : 100,
-//		"mass" : 100,
-//		"radius" : 30
-//		}
-//		]
-//}
-
 template <typename T>
-std::vector<particle<T>> read_from_file(std::ifstream& in) {
+static std::vector<particle<T>> READ_FROM_FILE_JSON(std::ifstream& in) {
 	std::vector<particle<T>> particles_read_from_file;
 	using json = nlohmann::json;
 	json data = json::parse(in);
@@ -176,14 +143,116 @@ std::vector<particle<T>> read_from_file(std::ifstream& in) {
 	return particles_read_from_file;
 }
 
+#include <sstream>
+//https://www.tutorialspoint.com/cplusplus-program-to-take-out-integer-from-comma-separated-string
+template <typename T>
+static std::vector<T> take_double(std::string str) {
+	std::stringstream ss(str);
+	std::vector<T> result;
+	char ch;
+	T tmp;
+	while (ss >> tmp) {
+		result.push_back(tmp);
+		ss >> ch;
+	}
+	return result;
+}
+
+std::string READ_IN_GETLINE(std::ifstream& in) {//will get the entire line from a file and return it as a string 
+	std::string string_read_in;//local string 
+	std::getline(in, string_read_in);//getting the value 
+	return string_read_in;
+}
+
+template <typename T>
+static std::vector<particle<T>> READ_FROM_FILE_CSV(std::ifstream& in) {
+	std::vector<particle<T>> particles_read_from_file;
+	while (!in.eof() && in) {
+		std::vector<T> numbers_from_file= take_double<T>(READ_IN_GETLINE(in));
+		if (numbers_from_file.size() == 0) {
+			break;//this is because there is always a /n 
+		}
+		vec3<T> positions;
+		vec3<T> velocitys;
+		vec3<T> acclerations;
+		T temp;
+		T mass;
+		T radius;
+		positions.x = numbers_from_file.at(0);
+		positions.y = numbers_from_file.at(1);
+		positions.z = numbers_from_file.at(2);
+
+		velocitys.x = numbers_from_file.at(3);
+		velocitys.y = numbers_from_file.at(4);
+		velocitys.z = numbers_from_file.at(5);
+
+		acclerations.x = numbers_from_file.at(6);
+		acclerations.y = numbers_from_file.at(7);
+		acclerations.z = numbers_from_file.at(8);
+
+		temp = numbers_from_file.at(9);
+		mass = numbers_from_file.at(10);
+		radius = numbers_from_file.at(11);
+		
+		particles_read_from_file.push_back(particle<T>(positions, velocitys, acclerations, temp, mass, radius));
+	}
+	return particles_read_from_file;
+}
+template <typename T> 
+static std::vector<particle<T>> READ_FROM_FILE_TXT(std::ifstream& in) {
+	std::vector<particle<T>> particles_read_from_file;
+	T data_in_file[12];
+	int index = 0;
+	while (!in.eof() && in) {
+		in >> data_in_file[index%12];
+		if (index % 12 == 0) {
+			vec3<T> positions;
+			vec3<T> velocitys;
+			vec3<T> acclerations;
+			T temp;
+			T mass;
+			T radius;
+			positions.x = data_in_file[0];
+			positions.y = data_in_file[1];
+			positions.z = data_in_file[2];
+
+			velocitys.x = data_in_file[3];
+			velocitys.y = data_in_file[4];
+			velocitys.z = data_in_file[5];
+
+			acclerations.x = data_in_file[6];
+			acclerations.y = data_in_file[7];
+			acclerations.z = data_in_file[8];
+
+			temp = data_in_file[9];
+			mass = data_in_file[10];
+			radius = data_in_file[11];
+			particles_read_from_file.push_back(particle<T>(positions, velocitys, acclerations, temp, mass, radius));
+		}
+		index++;
+	}
+	particles_read_from_file.erase(particles_read_from_file.begin());
+	return particles_read_from_file;
+}
+
 namespace load_from_file {
 	template <typename T>
-	std::vector<particle<T>> load_from_file_graphics_and_particles() {
+	std::vector<particle<T>> load_from_file_particles() {
 		short user_choice = ERROR_CHECKING(1, 3, "Which file type would you like to read from?\nEnter 1 for .json\n Enter 2 for .csv\n Enter 3 for .txt");
 		if (user_choice == 1) {
-			std::string file_name = FILE_NAME();
-		//	return read_data<T>(file_name + ".json");
-			
+			std::string file_name = FILE_NAME(0);
+			std::ifstream in(file_name + ".json");
+			return READ_FROM_FILE_JSON<T>(in);
+		}
+		if (user_choice == 2) {
+			std::string file_name = FILE_NAME(0);
+			std::ifstream in(file_name + ".csv");
+			return READ_FROM_FILE_CSV<T>(in);
+		}
+		if (user_choice == 3) {
+			std::string file_name = FILE_NAME(0);
+			std::ifstream in(file_name + ".txt");
+			return READ_FROM_FILE_TXT<T>(in);
 		}
 	}
 }

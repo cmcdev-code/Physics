@@ -37,7 +37,7 @@ namespace particle_interaction{
 		for (auto& itr : collection.particle_container) {
 			for (auto& itr2 : collection.particle_container) {
 				if (itr != itr2) {
-					xAccleration +=logic_particles::get_force_from_gravity_x(itr, itr2);
+					xAccleration += logic_particles::get_force_from_gravity_x(itr, itr2);
 					yAccleration += logic_particles::get_force_from_gravity_y(itr, itr2);
 					zAccleration += logic_particles::get_force_from_gravity_z(itr, itr2);
 				}

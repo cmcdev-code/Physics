@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 template<typename T>
 struct vec3 {
@@ -183,7 +184,9 @@ public:
 	bool operator!=(const particle& particle_2) const {
 		return !(*this == particle_2);
 	}
-
+	void debug() {
+		std::cout << get_x_position() << " " << get_y_position() << " " << get_z_position() << std::endl;
+	}
 private:
 	vec3<T> position;
 	vec3<T> velocity;
