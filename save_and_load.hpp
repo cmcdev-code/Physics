@@ -70,9 +70,8 @@ static void WRITE_TO_TXT(std::ofstream& out, const particle<T>& particle_) {
 }
 
 namespace save_to_file {
-	template <typename T>
-
-	void write_to_file_particles(const graphics_and_particles<T>& particles_)
+	template <typename T,int size>
+	void write_to_file_particles(const graphics_and_particles<T,size>& particles_)
 	{
 		short user_choice = ERROR_CHECKING(1, 3, "Which file type would you like to write to?\nEnter 1 for .json\n Enter 2 for .csv\n Enter 3 for .txt");
 

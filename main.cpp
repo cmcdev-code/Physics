@@ -11,7 +11,7 @@ int main()
 {
     
     window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
-    graphics_and_particles<double> game(testing_window);
+    graphics_and_particles<double,64> game(testing_window);
     game.main_particles.particle_container = load_from_file::load_from_file_particles<double>();
     game.create_graphics_from_particle_vector();
     

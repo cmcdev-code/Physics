@@ -37,7 +37,7 @@ namespace particle_interaction{
 		for (auto& itr : collection.particle_container) {
 			for (auto& itr2 : collection.particle_container) {
 				if (itr != itr2) {
-					if (logic_particles::get_distance_between_particles(itr, itr2)/10 > itr.get_radius() + itr2.get_radius()) {
+					if (logic_particles::get_distance_between_particles(itr, itr2) > itr.get_radius() + itr2.get_radius()) {
 						xAccleration += logic_particles::get_force_from_gravity_x(itr, itr2);
 						yAccleration += logic_particles::get_force_from_gravity_y(itr, itr2);
 						zAccleration += logic_particles::get_force_from_gravity_z(itr, itr2);
@@ -52,6 +52,16 @@ namespace particle_interaction{
 			xAccleration = 0;
 			yAccleration = 0;
 			zAccleration = 0;
+		}
+	}
+	template <typename T>
+	inline void update_gravity_on_particles(particle<T> particle_1, particle<T> particle_2) {
+		if (particle_1 != particle_2) {
+			if (logic_particles::get_distance_between_particles(particle_1, particle_2) > particle_1.get_radius() + particle_2.get_radius()) {
+				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2));
+				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2));
+				particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2));
+			}
 		}
 	}
 }
