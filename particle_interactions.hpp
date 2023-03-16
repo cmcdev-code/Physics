@@ -37,14 +37,17 @@ namespace particle_interaction{
 		for (auto& itr : collection.particle_container) {
 			for (auto& itr2 : collection.particle_container) {
 				if (itr != itr2) {
-					xAccleration += logic_particles::get_force_from_gravity_x(itr, itr2);
-					yAccleration += logic_particles::get_force_from_gravity_y(itr, itr2);
-					zAccleration += logic_particles::get_force_from_gravity_z(itr, itr2);
+					if (logic_particles::get_distance_between_particles(itr, itr2) > itr.get_radius() + itr2.get_radius()) {
+						xAccleration += logic_particles::get_force_from_gravity_x(itr, itr2);
+						yAccleration += logic_particles::get_force_from_gravity_y(itr, itr2);
+						zAccleration += logic_particles::get_force_from_gravity_z(itr, itr2);
+					}
 				}
 			}
+		
 			itr.set_x_accleration(xAccleration);
 			itr.set_y_accleration(yAccleration);
-			itr.set_x_accleration(zAccleration);
+			itr.set_z_accleration(zAccleration);
 			//now need to set accleration to 0
 			xAccleration = 0;
 			yAccleration = 0;

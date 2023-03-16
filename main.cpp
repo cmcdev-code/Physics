@@ -17,12 +17,11 @@ int main()
 
     game.graphics_window.view.zoom(10.0f);
     int numberOfSteps = 0;
-    while (numberOfSteps<1000) {
+    while (numberOfSteps<10000000) {
         game.render_window();
         game.update_all_particle_states();
         game.sync_graphics_and_particle_positions();
         numberOfSteps++;
-        std::cout << numberOfSteps << "\n";
     }
     save_to_file::write_to_file_particles(game);
 
