@@ -14,8 +14,8 @@ int main()
     graphics_and_particles<double> game(testing_window);
     game.main_particles.particle_container = load_from_file::load_from_file_particles<double>();
     game.create_graphics_from_particle_vector();
-
-    game.graphics_window.view.zoom(10.0f);
+    
+    game.graphics_window.view.zoom(5.0f);
     int numberOfSteps = 0;
     while (numberOfSteps<10000000) {
         game.render_window();
