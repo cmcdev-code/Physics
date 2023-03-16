@@ -11,17 +11,18 @@ int main()
 {
     
     window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
-    graphics_and_particles<double,64> game(testing_window);
+    graphics_and_particles<double,1> game(testing_window);
     game.main_particles.particle_container = load_from_file::load_from_file_particles<double>();
     game.create_graphics_from_particle_vector();
     
     game.graphics_window.view.zoom(5.0f);
     int numberOfSteps = 0;
-    while (numberOfSteps<10000000) {
+    while (numberOfSteps<100000) {
         game.render_window();
         game.update_all_particle_states();
         game.sync_graphics_and_particle_positions();
         numberOfSteps++;
+        
     }
     save_to_file::write_to_file_particles(game);
 

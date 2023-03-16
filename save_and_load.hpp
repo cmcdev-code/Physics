@@ -137,7 +137,8 @@ static std::vector<particle<T>> READ_FROM_FILE_JSON(std::ifstream& in) {
 		temp = itr["temp"];
 		mass = itr["mass"];
 		radius = itr["radius"];
-		particles_read_from_file.push_back(particle<T>(positions, velocitys, acclerations, mass, temp, radius));
+		particle<T>* testing_ = new particle<T>(positions, velocitys, acclerations, mass, temp, radius);
+		particles_read_from_file.push_back(* testing_);
 	}
 	return particles_read_from_file;
 }

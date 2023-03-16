@@ -17,15 +17,7 @@ public:
 		std::cout << "Window created \n";
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				vec3<T> position_;
-				vec3<T> velocity_and_accleration;
-				position_.x = i * box_dimensions;
-				position_.y = j * box_dimensions;
-				position_.z = 0;
-				velocity_and_accleration.x = 0;
-				velocity_and_accleration.y = 0;
-				velocity_and_accleration.z = 0;
-				grid[i][j][1].push_back(particle<T>(position_, velocity_and_accleration, velocity_and_accleration, 0, 0, 0));
+				grid_of_particle_mass[i][j] = 0;
 			}
 		}
 	}
@@ -33,18 +25,9 @@ public:
 		std::cout << "Window created \n";
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				vec3<T> position_;
-				vec3<T> velocity_and_accleration;
-				position_.x = i * box_dimensions;
-				position_.y = j * box_dimensions;
-				position_.z = 0;
-				velocity_and_accleration.x = 0;
-				velocity_and_accleration.y = 0;
-				velocity_and_accleration.z = 0;
-				grid[i][j][1].push_back(particle<T>(position_, velocity_and_accleration, velocity_and_accleration, 0, 0, 0));
+				grid_of_particle_mass[i][j] = 0;
 			}
 		}
-
 	}
 	graphics_and_particles(const graphics_and_particles& other)
 		: graphics_window(other.graphics_window), main_particles(other.main_particles)
@@ -52,15 +35,7 @@ public:
 		std::cout << "Window created \n";
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				vec3<T> position_;
-				vec3<T> velocity_and_accleration;
-				position_.x = i * box_dimensions;
-				position_.y = j * box_dimensions;
-				position_.z = 0;
-				velocity_and_accleration.x = 0;
-				velocity_and_accleration.y = 0;
-				velocity_and_accleration.z = 0;
-				grid[i][j][1].push_back(particle<T>(position_, velocity_and_accleration, velocity_and_accleration, 0, 0, 0));
+				grid_of_particle_mass[i][j] = 0;
 			}
 		}
 	}
@@ -68,19 +43,21 @@ public:
 
 	graphics graphics_window;
 	particle_collection<T> main_particles;
-	std::vector<particle<T>> grid[size][size][2];
-
+	std::vector<int> grid_of_particle_indices[size][size];
+	double grid_of_particle_mass[size][size];
 private:
 	T box_dimensions = 1000;
 
 public:
 	void put_particles_in_grid() {
+		int index = 0;
 		for (auto& itr : main_particles.particle_container) {
 			int x, y;
 			x = itr.get_x_position() / 1000+size/2;
 			y = itr.get_z_position() / 1000+size/2;
-			grid[x][y][0].push_back(itr);
-			grid[x][y][1].at(0).set_mass(grid[x][y][1].at(0).get_mass() + itr.get_mass());
+			grid_of_particle_indices[x][y].push_back(index);
+			grid_of_particle_mass[x][y]+=(itr.get_mass());
+			index++;
 		}
 	}
 		particle<T>* create_new_particle(const vec3<T>& position_, const vec3<T>& velocity_, const vec3<T>& acceleration_, T mass_, T temp_, T radius_) {
@@ -144,62 +121,63 @@ public:
 				for (int j = 0; j < size; j++) {
 					if (check_for_corner(i,j) == 0) {
 						//this means that it is not a corner 
-						for (auto& itr_1 : grid[i][j][0]) {
+						for (auto& itr_1 : grid_of_particle_indices[i][j]) {
 							//same grid update
 							//check if mass is 0
-							if (grid[i][j][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i][j][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i][j] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i][j]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
+							
 							//left grid update
-							if (grid[i - 1][j][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i - 1][j][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i-1][j] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i - 1][j]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//right of grid update
-							if (grid[i + 1][j][1].at(0).get_mass() != 0){
-								for (auto& itr_2 : grid[i + 1][j][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i+1][j] != 0){
+								for (auto& itr_2 : grid_of_particle_indices[i + 1][j]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//top of grid update
-							if (grid[i][j - 1][1].at(0).get_mass() != 0){
-								for (auto& itr_2 : grid[i][j - 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i][j-1] != 0){
+								for (auto& itr_2 : grid_of_particle_indices[i][j - 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//bottom of grid update
-							if (grid[i][j + 1][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i][j + 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i][j + 1]!= 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i][j + 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
-							//corners of grid update now 
+							//corners of grid update now
 
 							//top left of grid
-							if (grid[i - 1][j - 1][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i - 1][j - 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i - 1][j - 1] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i - 1][j - 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//top right of grid
-							if (grid[i + 1][j - 1][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i + 1][j - 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i + 1][j - 1] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i + 1][j - 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//bottom left of grid
-							if (grid[i - 1][j + 1][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i - 1][j + 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i - 1][j + 1] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i - 1][j + 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 							//bottom right of grid 
-							if (grid[i + 1][j + 1][1].at(0).get_mass() != 0) {
-								for (auto& itr_2 : grid[i + 1][j + 1][0]) {
-									particle_interaction::update_gravity_on_particles(itr_1, itr_2);
+							if (grid_of_particle_mass[i + 1][j + 1] != 0) {
+								for (auto& itr_2 : grid_of_particle_indices[i + 1][j + 1]) {
+									particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								}
 							}
 						}
@@ -207,17 +185,12 @@ public:
 				}
 			}
 		}
-
 		void update_all_particle_states() {
-			particle_interaction::check_for_and_update_collisions(main_particles);
-			put_particles_in_grid();
-			update_particle_gravity_grid();
+			//put_particles_in_grid();
+			//particle_interaction::check_for_and_update_collisions(main_particles);
+		//	update_particle_gravity_grid();
 			//setting mass of all grid objects to 0
-			for (int i = 0; i < size; i++) {
-				for (int j = 0; j < size; j++) {
-					grid[i][j][1].at(0).set_mass(0);
-				}
-			}
+			particle_interaction::update_gravity_on_particles(main_particles);
 			particle_interaction::update_particle_position_collection(main_particles);
 			particle_interaction::update_particle_velocity_collection(main_particles);
 		}
