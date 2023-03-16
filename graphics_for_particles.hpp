@@ -24,33 +24,31 @@ struct window_construction {
 		center.x = center_x;
 		center.y = center_y;
 		size_shown.x = size_shown_x;
-		size_shown_y = size_shown_y;
+		size_shown.y = size_shown_y;
 		modeHeight = height_;
 		modeWidth = width;
 		window_name = Window_name;
 	}
 
 };
-
+#include <iostream>
 class graphics {
 	public:
 
 	graphics(const window_construction & window_) {
 		view.setCenter(window_.center);
 		view.setSize(window_.size_shown);
-		window.create(sf::VideoMode(window_.modeWidth, window_.modeHeight),window_.window_name);
+		window.create(sf::VideoMode(window_.modeHeight, window_.modeWidth),window_.window_name);
 	}
 	sf::View view;
 	sf::RenderWindow window;
 
 	std::vector<sf::CircleShape> graphics_of_particles;
-	
 	void render_to_screen() {
-
+		window.setView(view);
 		for (auto& itr : graphics_of_particles) {
 			window.draw(itr);
 		}
-		//display to the screen
 		window.display();
 	}
 

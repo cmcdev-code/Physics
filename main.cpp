@@ -6,37 +6,25 @@
 #include "graphics_and_particles.hpp"
 #include "save_and_load.hpp"
 
+
 int main()
 {
- 
-
-    vec3<double> testing;
-    testing.x = 3;
-    testing.y = 3;
-    testing.z = 0;
-    particle<double> new_particle_testing0(testing, testing, testing, 12, 12, 12);
-    particle<double> new_particle_testing1(testing, testing, testing, 12, 12, 12);
-
     
-    
-    window_construction testing_window(0,0,1200,1200,1000,1000,"TEsting");
-    graphics_and_particles<double> testing2(testing_window);
-   
-    testing2.graphics_window.graphics_of_particles.push_back(* testing2.create_new_circle(testing, 30, testing2.graphics_window));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
-    testing2.main_particles.particle_container.push_back(*testing2.create_new_particle(testing, testing, testing, 100, 100, 30));
+    window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
+    graphics_and_particles<double> game(testing_window);
+    game.main_particles.particle_container = load_from_file::load_from_file_particles<double>();
+    game.create_graphics_from_particle_vector();
 
-    save_to_file::write_to_file_particles(testing2);
-
-    particle_collection<double> testing000;
-    testing000.particle_container = load_from_file::load_from_file_particles<double>();
-    std::cout << testing000.particle_container.size()<<std::endl;
-    for (auto& itr : testing000.particle_container) {
-        itr.debug();
+    game.graphics_window.view.zoom(10.0f);
+    int numberOfSteps = 0;
+    while (numberOfSteps<1000) {
+        game.render_window();
+        game.update_all_particle_states();
+        game.sync_graphics_and_particle_positions();
+        numberOfSteps++;
+        std::cout << numberOfSteps << "\n";
     }
+    save_to_file::write_to_file_particles(game);
 
     return 0;
 }
