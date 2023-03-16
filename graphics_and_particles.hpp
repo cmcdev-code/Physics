@@ -62,6 +62,31 @@ class graphics_and_particles {
 			{
 				if (event.type == sf::Event::Closed)
 					graphics_window.window.close();
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					sf::Vector2f window_size=graphics_window.view.getSize();
+					graphics_window.view.setSize(window_size.x / 1.1, window_size.y / 1.1);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					sf::Vector2f window_size = graphics_window.view.getSize();
+					graphics_window.view.setSize(window_size.x * 1.1, window_size.y * 1.1);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+					sf::Vector2f window_center = graphics_window.view.getCenter();
+					graphics_window.view.setCenter(window_center.x,window_center.y-60);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+					sf::Vector2f window_center = graphics_window.view.getCenter();
+					graphics_window.view.setCenter(window_center.x - 60, window_center.y);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+					sf::Vector2f window_center = graphics_window.view.getCenter();
+					graphics_window.view.setCenter(window_center.x, window_center.y +60);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+					sf::Vector2f window_center = graphics_window.view.getCenter();
+					graphics_window.view.setCenter(window_center.x + 60, window_center.y);
+				}
+
 			}
 			graphics_window.window.clear();
 			graphics_window.render_to_screen();
