@@ -130,9 +130,9 @@ static std::vector<particle<T>> READ_FROM_FILE_JSON(std::ifstream& in) {
 		velocitys.y = itr["velocity"]["y"];
 		velocitys.z = itr["velocity"]["z"];
 
-		acclerations.x = itr["acceleration"]["x"];
-		acclerations.y = itr["acceleration"]["y"];
-		acclerations.z = itr["acceleration"]["z"];
+		acclerations.x = itr["accleration"]["x"];
+		acclerations.y = itr["accleration"]["y"];
+		acclerations.z = itr["accleration"]["z"];
 
 		temp = itr["temp"];
 		mass = itr["mass"];

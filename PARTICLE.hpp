@@ -185,7 +185,7 @@ public:
 		return !(*this == particle_2);
 	}
 	void debug() {
-		std::cout << get_x_position() << " " << get_y_position() << " " << get_z_position() << std::endl;
+		std::cout << get_x_accleration() << " " << get_y_accleration() << " " << get_z_accleration() << std::endl;
 	}
 private:
 	vec3<T> position;
