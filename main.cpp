@@ -10,10 +10,12 @@ graphics_and_particles<float,1000> game(testing_window);
 int main()
 {
 
-  
+    
+
     game.main_particles.particle_container = load_from_file::load_from_file_particles<float>();
     game.create_graphics_from_particle_vector();
-    
+
+ 
     game.graphics_window.view.zoom(1.0f);
     int numberOfSteps = 0;
     auto start= std::chrono::high_resolution_clock::now();
