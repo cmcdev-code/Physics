@@ -194,14 +194,14 @@ public:
 						//check if mass is 0
 						if (grid_of_particle_mass[i][j] != 0) {
 							for (auto& itr_2 : grid_of_particle_indices[i][j]) {
-								//particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
-								
+								particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+							/*	
 								double force_x=logic_particles::get_force_from_gravity_x(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
 								double force_y = logic_particles::get_force_from_gravity_y(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
-								double force_z = 0;
+								double force_z = 0;*/
 								//logic_particles::change_acceleration(main_particles.particle_container.at(itr_1),force_x, force_y, force_z);
-								logic_particles::change_acceleration(main_particles.particle_container.at(itr_1), force_x, force_y, 0);
-								main_particles.particle_container.at(itr_1).debug();
+								//logic_particles::change_acceleration(main_particles.particle_container.at(itr_1), force_x, force_y, 0);
+								//main_particles.particle_container.at(itr_1).debug();
 							}
 						}
 
