@@ -11,8 +11,8 @@ int main()
 {
     
     window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
-    graphics_and_particles<double,10> game(testing_window);
-    game.main_particles.particle_container = load_from_file::load_from_file_particles<double>();
+    graphics_and_particles<long double,10> game(testing_window);
+    game.main_particles.particle_container = load_from_file::load_from_file_particles<long double>();
     game.create_graphics_from_particle_vector();
     
     game.graphics_window.view.zoom(5.0f);

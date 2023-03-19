@@ -6,8 +6,15 @@
 #include <iostream>
 #include <vector>
 
+//TO do orginaze this file better 
 
 
+
+static void get_force_grid(int i, int j, int k, int z, double& force_x, double& force_y) {
+	double distance = pow((i - k) * (i - k) + (j - z) * (j - z), .5);
+	force_x = -0.000000000066743 * (i - k) / distance != 0 ? distance : 1;//the 1 is because it is the same grid 
+	force_y = -0.000000000066743 * (j - z) / distance != 0 ? distance : 1;
+}
 
 template<typename T, int size>
 class graphics_and_particles {
@@ -20,6 +27,19 @@ public:
 				grid_of_particle_mass[i][j] = 0;
 			}
 		}
+		/*for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				for (int k = 0; k < size; k++) {
+					for (int z = 0; z < size; z++) {
+						double force_x, force_y;
+						get_force_grid(i, j, k, z, force_x, force_y);
+						grid_of_consistent_gravity[i][j][k][z][0]=force_x;
+						grid_of_consistent_gravity[i][j][k][z][1] = force_y;
+						grid_of_consistent_gravity[i][j][k][z][2] = 0;
+					}
+				}
+			}
+		}*/
 	}
 	graphics_and_particles(const window_construction& window_) : graphics_window(window_) {
 		std::cout << "Window created \n";
@@ -28,6 +48,19 @@ public:
 				grid_of_particle_mass[i][j] = 0;
 			}
 		}
+		/*for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				for (int k = 0; k < size; k++) {
+					for (int z = 0; z < size; z++) {
+						double force_x, force_y;
+						get_force_grid(i, j, k, z, force_x, force_y);
+						grid_of_consistent_gravity[i][j][k][z][0] = force_x;
+						grid_of_consistent_gravity[i][j][k][z][1] = force_y;
+						grid_of_consistent_gravity[i][j][k][z][2] = 0;
+					}
+				}
+			}
+		}*/
 	}
 	graphics_and_particles(const graphics_and_particles& other)
 		: graphics_window(other.graphics_window), main_particles(other.main_particles)
@@ -38,9 +71,23 @@ public:
 				grid_of_particle_mass[i][j] = 0;
 			}
 		}
-	}
-
-
+	/*	for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				for (int k = 0; k < size; k++) {
+					for (int z = 0; z < size; z++) {
+						double force_x, force_y;
+						get_force_grid(i, j, k, z, force_x, force_y);
+						grid_of_consistent_gravity[i][j][k][z][0] = force_x;
+						grid_of_consistent_gravity[i][j][k][z][1] = force_y;
+						grid_of_consistent_gravity[i][j][k][z][2] = 0;
+					}
+				}
+			}
+		}*/
+	}										                //|
+											               // v this is for x,y,z gravity 	
+	//double grid_of_consistent_gravity[size][size][size][size][3];
+	
 	graphics graphics_window;
 	particle_collection<T> main_particles;
 	std::vector<int> grid_of_particle_indices[size][size];
@@ -139,6 +186,7 @@ public:
 	void update_particle_gravity_grid() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
+				//std::cout << i << " " << j << std::endl;
 				if (check_for_corner(i, j) == 0) {
 					//this means that it is not a corner 
 					for (auto& itr_1 : grid_of_particle_indices[i][j]) {
@@ -146,7 +194,14 @@ public:
 						//check if mass is 0
 						if (grid_of_particle_mass[i][j] != 0) {
 							for (auto& itr_2 : grid_of_particle_indices[i][j]) {
-								particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+								//particle_interaction::update_gravity_on_particles(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+								
+								double force_x=logic_particles::get_force_from_gravity_x(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+								double force_y = logic_particles::get_force_from_gravity_y(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+								double force_z = 0;
+								//logic_particles::change_acceleration(main_particles.particle_container.at(itr_1),force_x, force_y, force_z);
+								logic_particles::change_acceleration(main_particles.particle_container.at(itr_1), force_x, force_y, 0);
+								main_particles.particle_container.at(itr_1).debug();
 							}
 						}
 
@@ -205,13 +260,28 @@ public:
 			}
 		}
 	}
+	//void update_gravity_in_for_all_particles_in_grid_index(int x, int y, double force_x,double force_y) {
+	//	for (auto& itr : grid_of_particle_indices[x][y]) {
+	//		logic_particles::change_acceleration(force_x, force_y,0);
+	//	}
+	//}
+	//void update_grid_pre() {
+	//	//update gravity on particles in a grid
+	//	for (int i = 0; i < size; i++) {
+	//		for (int j = 0; j < size; j++) {
+
+	//		}
+	//	}
+	//}
+
 	void update_all_particle_states() {
 		put_particles_in_grid();
 		//particle_interaction::check_for_and_update_collisions(main_particles);
 		update_particle_gravity_grid();
-		clear_grid();
 		particle_interaction::update_particle_position_collection(main_particles);
 		particle_interaction::update_particle_velocity_collection(main_particles);
+		clear_grid();
+		
 	}
 	void sync_graphics_and_particle_positions() {
 		for (int i = 0; i < main_particles.particle_container.size(); i++) {
