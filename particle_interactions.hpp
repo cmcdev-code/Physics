@@ -64,9 +64,11 @@ namespace particle_interaction{
 	inline void update_gravity_on_particles(particle<T>& particle_1, particle<T>& particle_2) {
 		if (particle_1 != particle_2) {
 			//if (logic_particles::get_distance_between_particles(particle_1, particle_2) > particle_1.get_radius() + particle_2.get_radius()) {
-				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2,0.00001));
-				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2, 0.00001));
-				particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
+				T distance_between_particles= logic_particles::get_distance_between_particles(particle_1, particle_2);
+				T distance_from_particles_squared = distance_between_particles * distance_between_particles;
+				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2,distance_from_particles_squared));
+				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2,distance_from_particles_squared));
+				//particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
 			//}
 		}
 	}
