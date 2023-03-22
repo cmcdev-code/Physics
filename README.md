@@ -10,3 +10,7 @@ Some things that I plan on adding into this version in not particular order..
   A way to test differnt changes and see how they effect the system easier. 
  
 If you are interested in running this right now it currently only works in Visual Studio specifically windows only on x64
+
+
+https://user-images.githubusercontent.com/74151925/226772085-d7d24444-a946-4431-9de9-26e159a24aec.mp4
+
