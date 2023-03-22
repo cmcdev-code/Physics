@@ -37,7 +37,7 @@ namespace particle_interaction{
 		}
 	}
 	template <typename T>
-	void update_gravity_on_particles(particle_collection<T>& collection) {
+	inline void update_gravity_on_particles(particle_collection<T>& collection) {
 		//This will add the gravity for every particle to the "acceleration"
 		T xAccleration(0), yAccleration(0), zAccleration(0);
 		for (auto& itr : collection.particle_container) {
@@ -72,8 +72,8 @@ namespace particle_interaction{
 			//if (logic_particles::get_distance_between_particles(particle_1, particle_2) > particle_1.get_radius() + particle_2.get_radius()) {
 				T distance_between_particles= logic_particles::get_distance_between_particles(particle_1, particle_2);
 				T distance_from_particles_squared = distance_between_particles * distance_between_particles;
-				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2,distance_from_particles_squared));
-				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2,distance_from_particles_squared));
+				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2,distance_from_particles_squared,0.0000001));
+				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2,distance_from_particles_squared, 0.0000001));
 				//particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
 			//}
 		}

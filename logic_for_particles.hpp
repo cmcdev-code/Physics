@@ -1,26 +1,27 @@
 #pragma once
 #include "PARTICLE.hpp"
 
+#include <cmath>
 
-template <typename T>
-T sqrt(T x)
-{
-	if (x < 2)
-		return x;
-	T y = x;
-	T z = (y + (x / y)) / 2;
-
-	while (abs(y - z) >= 0.1) {
-		y = z;
-		z = (y + (x / y)) / 2;
-	}
-	return z;
-}
+//template <typename T>
+//T sqrt(T x)
+//{
+//	if (x < 2)
+//		return x;
+//	T y = x;
+//	T z = (y + (x / y)) / 2;
+//
+//	while (abs(y - z) >= 0.1) {
+//		y = z;
+//		z = (y + (x / y)) / 2;
+//	}
+//	return z;
+//}
 
 
 
 namespace logic_particles {
-
+	using std::sqrt;
 	template <typename T>
 	void update_particle_position(particle<T>& particle_1) {
 		particle_1.set_x_position(particle_1.get_x_position() + particle_1.get_x_velocity());
@@ -51,7 +52,7 @@ namespace logic_particles {
 	}
 	template <typename T> 
 	inline bool particles_touching(particle<T>& particle_1, particle<T>& particle_2) {
-		return get_distance_between_particles(particle_1, particle_2)*10 <= particle_1.get_radius() + particle_2.get_radius();
+		return get_distance_between_particles(particle_1, particle_2)  <= particle_1.get_radius() + particle_2.get_radius();
 	}
 
 	template <typename T>
@@ -96,21 +97,21 @@ namespace logic_particles {
 	template <typename T>
 	void conservation_of_momentum(particle<T>& particle_1, particle<T>& particle_2) {
 		//this function is only to be called if two objects have hit eachother
-		T v1x = (particle_1.get_mass() * particle_1.get_x_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (2) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_x_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
-		T v2x = (particle_2.get_mass() * particle_2.get_x_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (2) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_x_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
+		T v1x = (particle_1.get_mass() * particle_1.get_x_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (1.1) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_x_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
+		T v2x = (particle_2.get_mass() * particle_2.get_x_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (1.1) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_x_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
 	
-		T v1y = (particle_1.get_mass() * particle_1.get_y_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (2) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_y_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
-		T v2y= (particle_2.get_mass() * particle_2.get_y_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (2) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_y_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
+		T v1y = (particle_1.get_mass() * particle_1.get_y_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (1.1) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_y_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
+		T v2y= (particle_2.get_mass() * particle_2.get_y_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (1.1) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_y_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
 
-		T v1z = (particle_1.get_mass() * particle_1.get_z_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (2) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_z_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
-		T v2z = (particle_2.get_mass() * particle_2.get_z_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (2) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_z_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
+		//T v1z = (particle_1.get_mass() * particle_1.get_z_velocity() * (particle_1.get_mass() - particle_2.get_mass()) + (2) * particle_2.get_mass() * particle_2.get_mass() * particle_2.get_z_velocity()) / ((particle_1.get_mass() + particle_2.get_mass()) * particle_1.get_mass());
+		//T v2z = (particle_2.get_mass() * particle_2.get_z_velocity() * (particle_2.get_mass() - particle_1.get_mass()) + (2) * particle_1.get_mass() * particle_1.get_mass() * particle_1.get_z_velocity()) / ((particle_2.get_mass() + particle_1.get_mass()) * particle_2.get_mass());
 
 		particle_1.set_x_velocity(v1x);
 		particle_1.set_y_velocity(v1y);
-		particle_1.set_z_velocity(v1z);
+		//particle_1.set_z_velocity(v1z);
 
 		particle_2.set_x_velocity(v2x);
 		particle_2.set_y_velocity(v2y);
-		particle_2.set_z_velocity(v2z);
+		//particle_2.set_z_velocity(v2z);
 	}
 }

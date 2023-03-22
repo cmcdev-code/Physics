@@ -11,23 +11,14 @@
 template<typename T, int size>
 class graphics_and_particles {
 public:
-
+	
 	graphics_and_particles() {
 		std::cout << "Window created \n";
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				grid_of_particle_mass[i][j] = 0;
-			}
-		}
+		
 
 	}
 	graphics_and_particles(const window_construction& window_) : graphics_window(window_) {
 		std::cout << "Window created \n";
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				grid_of_particle_mass[i][j] = 0;
-			}
-		}
 		
 	}
 	graphics_and_particles(const graphics_and_particles& other)
@@ -48,7 +39,7 @@ public:
 	bool already_updated[size][size];
 		
 private:
-	int box_dimensions = 400;
+	int box_dimensions = 10;
 
 public:
 	void put_particles_in_grid() {
@@ -84,12 +75,21 @@ public:
 	}
 	void change_color_of_grid_index(short x, short y) {
 		for (auto& itr : grid_of_particle_indices[x][y]) {
-			graphics_window.graphics_of_particles.at(itr).setFillColor(sf::Color(grid_of_particle_mass[x][y]*10, 60, 1 / (grid_of_particle_mass[x][y]*10)));
+			graphics_window.graphics_of_particles.at(itr).setFillColor(sf::Color(grid_of_particle_mass[x][y]*10, 100, 1 / ((grid_of_particle_mass[x][y])+100)));
 		}
 	}
+	//void create_graphics_from_particle_vector() {
+	//	for (auto& itr : main_particles.particle_container) {
+	//		sf::CircleShape shape(itr.get_radius());
+	//		shape.setPosition(itr.get_x_position(), itr.get_y_position());
+	//		shape.setFillColor(sf::Color::Blue);
+	//		shape.setOrigin(itr.get_radius(), itr.get_radius());
+	//		graphics_window.graphics_of_particles.push_back(shape);
+	//	}
+	//}
 	void create_graphics_from_particle_vector() {
 		for (auto& itr : main_particles.particle_container) {
-			sf::CircleShape shape(itr.get_radius());
+			sf::RectangleShape shape(sf::Vector2f(itr.get_radius(),itr.get_radius()));
 			shape.setPosition(itr.get_x_position(), itr.get_y_position());
 			shape.setFillColor(sf::Color::Blue);
 			shape.setOrigin(itr.get_radius(), itr.get_radius());
@@ -284,7 +284,9 @@ public:
 			short j = itr.get_y_position() / box_dimensions + size / 2;
 			if (!already_updated[i][j]) {
 				update_particles_at_index(i, j);
+				//check_for_collisons(i, j);
 				already_updated[i][j] = 1;
+				
 				change_color_of_grid_index(i, j);	
 
 			}

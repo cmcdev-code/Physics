@@ -43,7 +43,8 @@ class graphics {
 	sf::View view;
 	sf::RenderWindow window;
 
-	std::vector<sf::CircleShape> graphics_of_particles;
+	//std::vector<sf::CircleShape> graphics_of_particles;
+	std::vector<sf::RectangleShape> graphics_of_particles;
 	void render_to_screen() {
 		window.setView(view);
 		for (auto& itr : graphics_of_particles) {
