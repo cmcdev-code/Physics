@@ -31,6 +31,12 @@ namespace particle_interaction{
 		}
 	}
 	template <typename T>
+	void check_for_and_update_collisions(particle<T>& particle_1, particle<T>& particle_2) {
+		if (logic_particles::particles_touching(particle_1, particle_2) && particle_1!=particle_2) {
+			logic_particles::conservation_of_momentum(particle_1, particle_2);
+		}
+	}
+	template <typename T>
 	void update_gravity_on_particles(particle_collection<T>& collection) {
 		//This will add the gravity for every particle to the "acceleration"
 		T xAccleration(0), yAccleration(0), zAccleration(0);

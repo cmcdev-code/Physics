@@ -1,6 +1,7 @@
 #pragma once
 #include "PARTICLE.hpp"
 
+
 template <typename T>
 T sqrt(T x)
 {
@@ -42,7 +43,7 @@ namespace logic_particles {
 	
 	template <typename T>
 	inline T get_distance_between_particles(particle<T>& particle_1, particle<T>& particle_2) {
-		return sqrt(
+		return std::sqrt(
 			(particle_1.get_x_position() - particle_2.get_x_position())* (particle_1.get_x_position() - particle_2.get_x_position()) +
 			(particle_1.get_y_position() - particle_2.get_y_position())*(particle_1.get_y_position() - particle_2.get_y_position()) +
 			0/* for z*/
@@ -50,7 +51,7 @@ namespace logic_particles {
 	}
 	template <typename T> 
 	inline bool particles_touching(particle<T>& particle_1, particle<T>& particle_2) {
-		return get_distance_between_particles(particle_1, particle_2) <= particle_1.get_radius() + particle_2.get_radius();
+		return get_distance_between_particles(particle_1, particle_2)*10 <= particle_1.get_radius() + particle_2.get_radius();
 	}
 
 	template <typename T>

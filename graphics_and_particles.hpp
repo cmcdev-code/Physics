@@ -48,7 +48,7 @@ public:
 	bool already_updated[size][size];
 		
 private:
-	int box_dimensions = 200;
+	int box_dimensions = 400;
 
 public:
 	void put_particles_in_grid() {
@@ -56,20 +56,14 @@ public:
 		for (auto& itr : main_particles.particle_container) {
 			int x, y;
 			x = itr.get_x_position() / box_dimensions + size / 2;
-			y = itr.get_z_position() / box_dimensions + size / 2;
+			y = itr.get_y_position() / box_dimensions + size / 2;
 			grid_of_particle_indices[x][y].push_back(index);
 			index++;
-		}
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				//std::cout << grid_of_particle_indices[i][j].size()<<" ";
-			}
-			//std::cout << std::endl;
 		}
 		for (int i = 0; i < size; i++){
 			for (int j = 0; j < size; j++) {
 				//This sumation will loop through each grid and find the mass by number of particles
-				grid_of_particle_mass[i][j] = grid_of_particle_indices[i][j].size() * main_particles.particle_container.size()>0 ? main_particles.particle_container.at(0).get_mass() : 0;
+				grid_of_particle_mass[i][j] = grid_of_particle_indices[i][j].size();
 			}
 		}
 	}
@@ -88,7 +82,11 @@ public:
 	sf::CircleShape* create_new_circle(const vec3<T>& position_, T radius_, const graphics& graphics_for_window) {
 		return new sf::CircleShape(radius_)->setPosition(position_.x, position_.y);
 	}
-
+	void change_color_of_grid_index(short x, short y) {
+		for (auto& itr : grid_of_particle_indices[x][y]) {
+			graphics_window.graphics_of_particles.at(itr).setFillColor(sf::Color(grid_of_particle_mass[x][y]*10, 60, 1 / (grid_of_particle_mass[x][y]*10)));
+		}
+	}
 	void create_graphics_from_particle_vector() {
 		for (auto& itr : main_particles.particle_container) {
 			sf::CircleShape shape(itr.get_radius());
@@ -202,6 +200,72 @@ private:
 		}
 	}
 
+	void check_for_collisons(int i, int j) {
+		if (check_for_corner(i, j) == 0) {
+			//this means that it is not a corner 
+			for (auto& itr_1 : grid_of_particle_indices[i][j]) {
+				//same grid update
+				//check if mass is 0
+				if (grid_of_particle_mass[i][j] != 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i][j]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+
+				//left grid update
+				if (grid_of_particle_mass[i - 1][j] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i - 1][j]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//right of grid update
+				if (grid_of_particle_mass[i + 1][j] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i + 1][j]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//top of grid update
+				if (grid_of_particle_mass[i][j - 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i][j - 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//bottom of grid update
+				if (grid_of_particle_mass[i][j + 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i][j + 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//corners of grid update now
+
+				//top left of grid
+				if (grid_of_particle_mass[i - 1][j - 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i - 1][j - 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//top right of grid
+				if (grid_of_particle_mass[i + 1][j - 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i + 1][j - 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//bottom left of grid
+				if (grid_of_particle_mass[i - 1][j + 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i - 1][j + 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+				//bottom right of grid 
+				if (grid_of_particle_mass[i + 1][j + 1] > 0) {
+					for (auto& itr_2 : grid_of_particle_indices[i + 1][j + 1]) {
+						particle_interaction::check_for_and_update_collisions(main_particles.particle_container.at(itr_1), main_particles.particle_container.at(itr_2));
+					}
+				}
+			}
+		}
+	}
+
 	void already_updated_false() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -209,6 +273,8 @@ private:
 			}
 		}
 	}
+
+
 
 public:
 	void update_particle_gravity_grid() {
@@ -219,11 +285,14 @@ public:
 			if (!already_updated[i][j]) {
 				update_particles_at_index(i, j);
 				already_updated[i][j] = 1;
+				change_color_of_grid_index(i, j);	
+
 			}
 		}
 	}
 	void update_all_particle_states() {
 		put_particles_in_grid();
+		
 		already_updated_false();
 		update_particle_gravity_grid();
 		particle_interaction::update_particle_position_collection(main_particles);
@@ -231,6 +300,11 @@ public:
 		for (auto& itr : main_particles.particle_container) {
 			itr.set_x_accleration(0.0f);
 			itr.set_y_accleration(0.0f);
+		}
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				grid_of_particle_mass[i][j] = 0;
+			}
 		}
 		clear_grid();
 	}
