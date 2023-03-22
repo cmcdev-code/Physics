@@ -13,8 +13,4 @@ If you are interested in running this right now it currently only works in Visua
 
 
 
-
-
-https://user-images.githubusercontent.com/74151925/225706860-a69b4f69-7e73-4ee9-b99d-327b23ddb144.mp4
-
-
+https://user-images.githubusercontent.com/74151925/226772085-d7d24444-a946-4431-9de9-26e159a24aec.mp4

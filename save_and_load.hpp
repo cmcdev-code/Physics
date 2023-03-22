@@ -70,9 +70,8 @@ static void WRITE_TO_TXT(std::ofstream& out, const particle<T>& particle_) {
 }
 
 namespace save_to_file {
-	template <typename T>
-
-	void write_to_file_particles(const graphics_and_particles<T>& particles_)
+	template <typename T,int size>
+	void write_to_file_particles(const graphics_and_particles<T,size>& particles_)
 	{
 		short user_choice = ERROR_CHECKING(1, 3, "Which file type would you like to write to?\nEnter 1 for .json\n Enter 2 for .csv\n Enter 3 for .txt");
 
@@ -131,14 +130,15 @@ static std::vector<particle<T>> READ_FROM_FILE_JSON(std::ifstream& in) {
 		velocitys.y = itr["velocity"]["y"];
 		velocitys.z = itr["velocity"]["z"];
 
-		acclerations.x = itr["acceleration"]["x"];
-		acclerations.y = itr["acceleration"]["y"];
-		acclerations.z = itr["acceleration"]["z"];
+		acclerations.x = itr["accleration"]["x"];
+		acclerations.y = itr["accleration"]["y"];
+		acclerations.z = itr["accleration"]["z"];
 
 		temp = itr["temp"];
 		mass = itr["mass"];
 		radius = itr["radius"];
-		particles_read_from_file.push_back(particle<T>(positions, velocitys, acclerations, mass, temp, radius));
+		particle<T>* testing_ = new particle<T>(positions, velocitys, acclerations, mass, temp, radius);
+		particles_read_from_file.push_back(* testing_);
 	}
 	return particles_read_from_file;
 }
