@@ -34,6 +34,7 @@ struct window_construction {
 #include <iostream>
 class graphics {
 	public:
+		graphics() {};
 
 	graphics(const window_construction & window_) {
 		view.setCenter(window_.center);
