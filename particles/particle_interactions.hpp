@@ -1,10 +1,9 @@
 #pragma once
 #include "particle_collection.hpp"
-#include "logic_for_particles.hpp"
 #include <iostream>
 
 
-namespace particle_interaction{
+namespace particle_interaction {
 	template <typename T>
 	void update_particle_position_collection(particle_collection<T>& collection) {
 		for (auto& itr : collection.particle_container) {
@@ -32,7 +31,7 @@ namespace particle_interaction{
 	}
 	template <typename T>
 	void check_for_and_update_collisions(particle<T>& particle_1, particle<T>& particle_2) {
-		if (logic_particles::particles_touching(particle_1, particle_2) && particle_1!=particle_2) {
+		if (logic_particles::particles_touching(particle_1, particle_2) && particle_1 != particle_2) {
 			logic_particles::conservation_of_momentum(particle_1, particle_2);
 		}
 	}
@@ -50,7 +49,7 @@ namespace particle_interaction{
 					}
 				}
 			}
-		
+
 			itr.set_x_accleration(xAccleration);
 			itr.set_y_accleration(yAccleration);
 			itr.set_z_accleration(zAccleration);
@@ -70,12 +69,12 @@ namespace particle_interaction{
 	inline void update_gravity_on_particles(particle<T>& particle_1, particle<T>& particle_2) {
 		if (particle_1 != particle_2) {
 			//if (logic_particles::get_distance_between_particles(particle_1, particle_2) > particle_1.get_radius() + particle_2.get_radius()) {
-				T distance_between_particles= logic_particles::get_distance_between_particles(particle_1, particle_2);
-				T distance_from_particles_squared = distance_between_particles * distance_between_particles;
-				particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2,distance_from_particles_squared,0.0000001));
-				particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2,distance_from_particles_squared, 0.0000001));
-				//particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
-			//}
+			T distance_between_particles = logic_particles::get_distance_between_particles(particle_1, particle_2);
+			T distance_from_particles_squared = distance_between_particles * distance_between_particles;
+			particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2, distance_from_particles_squared, 0.0000001));
+			particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2, distance_from_particles_squared, 0.0000001));
+			//particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
+		//}
 		}
 	}
 }

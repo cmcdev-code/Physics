@@ -3,7 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include "particle_collection.hpp"
+#include "particles/particle_collection.hpp"
+#include "particles/particle_interactions.hpp"
 
 template<typename T, int size>
 class graphics_and_particles {
@@ -68,10 +69,9 @@ public:
 private:
 	sf::Vector2f cordinateConversion(T x, T y);
 };
-#include "graphics_and_particles.hpp"
-#include "renderer.hpp"
-#include "particle_collection.hpp"
-#include "particle_interactions.hpp"
+
+
+
 
 
 

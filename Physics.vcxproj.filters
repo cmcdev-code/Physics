@@ -15,13 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphics_and_particles.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PARTICLE.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="logic_for_particles.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="particle_collection.hpp">
@@ -30,10 +27,10 @@
     <ClInclude Include="particle_interactions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="graphics_and_particles.hpp">
+    <ClInclude Include="save_and_load.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="save_and_load.hpp">
+    <ClInclude Include="renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

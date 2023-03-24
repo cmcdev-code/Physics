@@ -3,7 +3,7 @@
 #include "graphics_and_particles.hpp"
 #include <string>
 #include <iostream>
-#include "PARTICLE.hpp"
+#include "particles/PARTICLE.hpp"
 #include "Dependecies/json\json.hpp"
 #include <vector>
 
