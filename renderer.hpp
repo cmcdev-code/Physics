@@ -1,6 +1,7 @@
 #pragma once 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+
 #include <string>
 #include <vector>
 
@@ -32,11 +33,11 @@ struct window_construction {
 
 };
 #include <iostream>
-class graphics {
+class renderer {
 	public:
-		graphics() {};
+		renderer() {};
 
-	graphics(const window_construction & window_) {
+	renderer(const window_construction & window_) {
 		view.setCenter(window_.center);
 		view.setSize(window_.size_shown);
 		window.create(sf::VideoMode(window_.modeHeight, window_.modeWidth),window_.window_name);
@@ -46,6 +47,7 @@ class graphics {
 
 	//std::vector<sf::CircleShape> graphics_of_particles;
 	std::vector<sf::RectangleShape> graphics_of_particles;
+
 	void render_to_screen() {
 		window.setView(view);
 		for (auto& itr : graphics_of_particles) {

@@ -21,7 +21,7 @@
     <ClInclude Include="logic_for_particles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="graphics_for_particles.hpp">
+    <ClInclude Include="renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="particle_collection.hpp">

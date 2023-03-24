@@ -1,5 +1,5 @@
 #pragma once
-#include "graphics_for_particles.hpp"
+#include "renderer.hpp"
 #include <iostream>
 #include <vector>
 #include <list>
@@ -14,14 +14,15 @@ public:
 	graphics_and_particles(const window_construction& window_);
 
 	//graphics_and_particles(const graphics_and_particles& other);
-	graphics graphics_window;
+	renderer graphics_window;
 	particle_collection<T> main_particles;
+
 	std::list<int> grid_of_particle_indices[size][size];
 	double grid_of_particle_mass[size][size];
 	bool already_updated[size][size];
-		
+	
 private:
-	int box_dimensions = 10;
+	int box_dimensions = 100;
 
 public:
 	void put_particles_in_grid();
@@ -30,7 +31,7 @@ public:
 
 	particle<T>* create_new_particle(const vec3<T>& position_, const vec3<T>& velocity_, const vec3<T>& acceleration_, T mass_, T temp_, T radius_);
 
-	sf::CircleShape* create_new_circle(const vec3<T>& position_, T radius_, const graphics& graphics_for_window);
+	sf::CircleShape* create_new_circle(const vec3<T>& position_, T radius_, const renderer& graphics_for_window);
 
 	void change_color_of_grid_index(short x, short y);
 
@@ -68,7 +69,7 @@ private:
 	sf::Vector2f cordinateConversion(T x, T y);
 };
 #include "graphics_and_particles.hpp"
-#include "logic_for_particles.hpp"
+#include "renderer.hpp"
 #include "particle_collection.hpp"
 #include "particle_interactions.hpp"
 
@@ -128,7 +129,7 @@ particle<T>* graphics_and_particles<T, size>::create_new_particle(const vec3<T>&
 	return new particle<T>(position_, velocity_, acceleration_, mass_, temp_, radius_);
 }
 template<typename T, int size>
-sf::CircleShape* graphics_and_particles<T, size>::create_new_circle(const vec3<T>& position_, T radius_, const graphics& graphics_for_window) {
+sf::CircleShape* graphics_and_particles<T, size>::create_new_circle(const vec3<T>& position_, T radius_, const renderer& graphics_for_window) {
 	sf::CircleShape* circle_object = new sf::CircleShape(radius_);
 	circle_object->setPosition(position_.x, position_.y);
 	return circle_object;
@@ -362,12 +363,14 @@ void graphics_and_particles<T, size>::update_all_particle_states() {
 	}
 	clear_grid();
 }
+sf::CircleShape test;
 template <typename T, int size>
 void graphics_and_particles<T, size>::sync_graphics_and_particle_positions() {
 	for (int i = 0; i < main_particles.particle_container.size(); i++) {
 		graphics_window.graphics_of_particles.at(i).setPosition(cordinateConversion(main_particles.particle_container.at(i).get_x_position(), main_particles.particle_container.at(i).get_y_position()));
 	}
 }
+
 template <typename T, int size>
 void graphics_and_particles<T, size>::render_window() {
 	sf::Event event;
