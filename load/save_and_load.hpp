@@ -1,6 +1,6 @@
 #pragma once
 #include <fstream>
-#include "graphics_and_particles.hpp"
+#include "../graphics_and_particles.hpp"
 #include <string>
 #include <iostream>
 #include "particles/PARTICLE.hpp"

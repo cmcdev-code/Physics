@@ -50,6 +50,38 @@ class renderer {
 
 	void render_to_screen() {
 		window.setView(view);
+
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				sf::Vector2f window_size = view.getSize();
+				view.setSize(window_size.x / 1.1, window_size.y / 1.1);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				sf::Vector2f window_size = view.getSize();
+				view.setSize(window_size.x * 1.1, window_size.y * 1.1);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+				sf::Vector2f window_center = view.getCenter();
+				view.setCenter(window_center.x, window_center.y - 60);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				sf::Vector2f window_center = view.getCenter();
+				view.setCenter(window_center.x - 60, window_center.y);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+				sf::Vector2f window_center = view.getCenter();
+				view.setCenter(window_center.x, window_center.y + 60);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				sf::Vector2f window_center = view.getCenter();
+				view.setCenter(window_center.x + 60, window_center.y);
+			}
+
+		}
 		for (auto& itr : graphics_of_particles) {
 			window.draw(itr);
 		}

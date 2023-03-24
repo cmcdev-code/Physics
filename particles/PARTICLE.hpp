@@ -202,23 +202,6 @@ private:
 
 #include <cmath>
 
-//template <typename T>
-//T sqrt(T x)
-//{
-//	if (x < 2)
-//		return x;
-//	T y = x;
-//	T z = (y + (x / y)) / 2;
-//
-//	while (abs(y - z) >= 0.1) {
-//		y = z;
-//		z = (y + (x / y)) / 2;
-//	}
-//	return z;
-//}
-
-
-
 namespace logic_particles {
 	using std::sqrt;
 	template <typename T>

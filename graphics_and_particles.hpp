@@ -10,31 +10,60 @@ template<typename T, int size>
 class graphics_and_particles {
 public:
 	
+	//0 argument constructor 
 	graphics_and_particles();
 
+	//1 argument constructor
 	graphics_and_particles(const window_construction& window_);
 
+
 	//graphics_and_particles(const graphics_and_particles& other);
+
+	//renderer has a vector of all the objects that need to be drawn to the screen
 	renderer graphics_window;
+
+	//has a vector that is every particle instence
 	particle_collection<T> main_particles;
 
-	std::list<int> grid_of_particle_indices[size][size];
-	double grid_of_particle_mass[size][size];
-	bool already_updated[size][size];
-	
-private:
-	int box_dimensions = 100;
-
-public:
+	//will go through every particle and put it's index in the right grid cell 
 	void put_particles_in_grid();
 
+	//will loop through every particle and put the mass in the corresponding grid cell 
+	void put_mass_in_grid();
+	
+	//sets the mass and clears the 2d array of vector indices 
 	void clear_grid();
 
+	//creates a new partice instance dynamically 
 	particle<T>* create_new_particle(const vec3<T>& position_, const vec3<T>& velocity_, const vec3<T>& acceleration_, T mass_, T temp_, T radius_);
 
+	//creates a new particle circe shape dynamically
 	sf::CircleShape* create_new_circle(const vec3<T>& position_, T radius_, const renderer& graphics_for_window);
 
+	//will calculate the color that a grid cell should be 
 	void change_color_of_grid_index(short x, short y);
+	
+	//will create a shape to draw from all particle instinces 
+	void create_graphics_from_particle_vector();
+	
+	//will update all grid cells gravity if the cell hasn't already been updated 
+	void update_particle_gravity_grid();
+
+	//will update the gravity for the grid using direct summation for ajacent cells and itself
+	void update_particles_at_index(int i, int j);
+
+	//will check if there is any collisons in a grid located at index i j and update all velocitys using conservation of momentum there
+	void check_for_collisons(int i, int j);
+
+	//will update the gravity  position and velocity of all particles
+	void update_all_particle_states();
+
+	//will sync the shape position with the actual particle position 
+	void sync_graphics_and_particle_positions();
+
+	//draws everything to the screen
+	void render_window();
+
 
 	//void create_graphics_from_particle_vector() {
 	//	for (auto& itr : main_particles.particle_container) {
@@ -45,8 +74,18 @@ public:
 	//		graphics_window.graphics_of_particles.push_back(shape);
 	//	}
 	//}
-	void create_graphics_from_particle_vector();
+
 private:
+	//List of indices to the particle collection at a specific grid index
+	std::list<int> grid_of_particle_indices[size][size];
+	//total mass of a grid cell
+	double grid_of_particle_mass[size][size];
+
+	bool already_updated[size][size];
+
+	//size of each grid cell 
+	int box_dimensions = 100;
+
 	//will return 1-4 if top left top right bottom left bottom right corner else it will return 0
 	int check_for_corner(int grid_x, int grid_y);
 
@@ -54,26 +93,12 @@ private:
 	//else it will return a 0 if it is not a side 
 	int check_if_on_side(int grid_x, int grid_y);
 
-	void update_particles_at_index(int i, int j);
-
-	void check_for_collisons(int i, int j);
-
+	//after one run through need to set all grid cells to false 
 	void already_updated_false();
 
-public:
-	void update_particle_gravity_grid();
-	void update_all_particle_states();
-	void sync_graphics_and_particle_positions();
-
-	void render_window();
-private:
+	//converts cordinates to the graphics 
 	sf::Vector2f cordinateConversion(T x, T y);
 };
-
-
-
-
-
 
 template<typename T, int size>
 graphics_and_particles<T, size>::graphics_and_particles() {
@@ -84,18 +109,15 @@ template<typename T, int size>
 graphics_and_particles<T, size>::graphics_and_particles(const window_construction& window_) : graphics_window(window_) {
 	std::cout << "Window created \n";
 }
-//template<typename T, int size>
-//graphics_and_particles<T, size>::graphics_and_particles(const graphics_and_particles& other)
-//	: graphics_window(other.graphics_window), main_particles(other.main_particles)
-//{
-//	std::cout << "Window created \n";
-//	for (int i = 0; i < size; i++) {
-//		for (int j = 0; j < size; j++) {
-//			grid_of_particle_mass[i][j] = 0;
-//		}
-//	}
-//
-//}
+
+template<typename T,int size>
+void graphics_and_particles<T, size>::put_mass_in_grid() {
+	for (auto& itr : main_particles.particle_container) {
+		int x = itr.get_x_position() / box_dimensions + size / 2;
+		int y = itr.get_y_position() / box_dimensions + size / 2;
+		grid_of_particle_mass[x][y] += itr.get_mass();
+	}
+}
 
 template<typename T, int size>
 void graphics_and_particles<T, size>::put_particles_in_grid() {
@@ -106,12 +128,6 @@ void graphics_and_particles<T, size>::put_particles_in_grid() {
 		y = itr.get_y_position() / box_dimensions + size / 2;
 		grid_of_particle_indices[x][y].push_back(index);
 		index++;
-	}
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			//This sumation will loop through each grid and find the mass by number of particles
-			grid_of_particle_mass[i][j] = grid_of_particle_indices[i][j].size();
-		}
 	}
 }
 
@@ -347,19 +363,15 @@ void graphics_and_particles<T, size>::update_particle_gravity_grid() {
 template <typename T, int size>
 void graphics_and_particles<T, size>::update_all_particle_states() {
 	put_particles_in_grid();
-
+	put_mass_in_grid();
 	already_updated_false();
+
 	update_particle_gravity_grid();
 	particle_interaction::update_particle_position_collection(main_particles);
 	particle_interaction::update_particle_velocity_collection(main_particles);
 	for (auto& itr : main_particles.particle_container) {
 		itr.set_x_accleration(0.0f);
 		itr.set_y_accleration(0.0f);
-	}
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			grid_of_particle_mass[i][j] = 0;
-		}
 	}
 	clear_grid();
 }
@@ -373,40 +385,10 @@ void graphics_and_particles<T, size>::sync_graphics_and_particle_positions() {
 
 template <typename T, int size>
 void graphics_and_particles<T, size>::render_window() {
-	sf::Event event;
-	while (graphics_window.window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			graphics_window.window.close();
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			sf::Vector2f window_size = graphics_window.view.getSize();
-			graphics_window.view.setSize(window_size.x / 1.1, window_size.y / 1.1);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			sf::Vector2f window_size = graphics_window.view.getSize();
-			graphics_window.view.setSize(window_size.x * 1.1, window_size.y * 1.1);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			sf::Vector2f window_center = graphics_window.view.getCenter();
-			graphics_window.view.setCenter(window_center.x, window_center.y - 60);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			sf::Vector2f window_center = graphics_window.view.getCenter();
-			graphics_window.view.setCenter(window_center.x - 60, window_center.y);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			sf::Vector2f window_center = graphics_window.view.getCenter();
-			graphics_window.view.setCenter(window_center.x, window_center.y + 60);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			sf::Vector2f window_center = graphics_window.view.getCenter();
-			graphics_window.view.setCenter(window_center.x + 60, window_center.y);
-		}
-
-	}
 	graphics_window.window.clear();
 	graphics_window.render_to_screen();
 }
+
 template <typename T, int size>
 sf::Vector2f graphics_and_particles<T, size>::cordinateConversion(T x, T y) {
 	return sf::Vector2f(x, -y);

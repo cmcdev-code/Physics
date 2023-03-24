@@ -1,26 +1,27 @@
 #include "graphics_and_particles.hpp"
-#include "save_and_load.hpp"
+#include "load/save_and_load.hpp"
 #include <iostream>
 #include <chrono>
 
 
 
-window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
-graphics_and_particles<float,200> game(testing_window);
+
 int main()
 {
+    window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
+    graphics_and_particles<float, 200> * game = new graphics_and_particles<float, 200>(testing_window);
 
-    game.main_particles.particle_container = load_from_file::load_from_file_particles<float>();
-    game.create_graphics_from_particle_vector();
+    game->main_particles.particle_container = load_from_file::load_from_file_particles<float>();
+    game->create_graphics_from_particle_vector();
 
  
-    game.graphics_window.view.zoom(1.0f);
+    game->graphics_window.view.zoom(5.0f);
     int numberOfSteps = 0;
     auto start= std::chrono::high_resolution_clock::now();
     while (numberOfSteps<100) {
-        game.render_window();
-        game.update_all_particle_states();
-        game.sync_graphics_and_particle_positions();
+        game->render_window();
+        game->update_all_particle_states();
+        game->sync_graphics_and_particle_positions();
         numberOfSteps++;
     }
     auto end = std::chrono::high_resolution_clock::now();
