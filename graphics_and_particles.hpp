@@ -5,6 +5,7 @@
 #include <list>
 #include "particles/particle_collection.hpp"
 #include "particles/particle_interactions.hpp"
+#include <grid.hpp>//Jake Hoffman
 
 template<typename T, int size>
 class graphics_and_particles {
@@ -16,14 +17,17 @@ public:
 	//1 argument constructor
 	graphics_and_particles(const window_construction& window_);
 
+	lightgrid::grid<int> grid;
+	
 
-	//graphics_and_particles(const graphics_and_particles& other);
 
 	//renderer has a vector of all the objects that need to be drawn to the screen
 	renderer graphics_window;
 
 	//has a vector that is every particle instence
 	particle_collection<T> main_particles;
+
+	void init_particles(std::vector<particle<T>> particles);
 
 	//will go through every particle and put it's index in the right grid cell 
 	void put_particles_in_grid();
@@ -64,6 +68,7 @@ public:
 	//draws everything to the screen
 	void render_window();
 
+	void check_edge();
 
 	//void create_graphics_from_particle_vector() {
 	//	for (auto& itr : main_particles.particle_container) {
@@ -79,12 +84,12 @@ private:
 	//List of indices to the particle collection at a specific grid index
 	std::list<int> grid_of_particle_indices[size][size];
 	//total mass of a grid cell
-	double grid_of_particle_mass[size][size];
+	T grid_of_particle_mass[size][size];
 
 	bool already_updated[size][size];
 
 	//size of each grid cell 
-	int box_dimensions = 100;
+	int box_dimensions = 10;
 
 	//will return 1-4 if top left top right bottom left bottom right corner else it will return 0
 	int check_for_corner(int grid_x, int grid_y);
@@ -103,11 +108,39 @@ private:
 template<typename T, int size>
 graphics_and_particles<T, size>::graphics_and_particles() {
 	std::cout << "Window created \n";
+	grid.init(size,size,box_dimensions);
+
 }
 
 template<typename T, int size>
 graphics_and_particles<T, size>::graphics_and_particles(const window_construction& window_) : graphics_window(window_) {
 	std::cout << "Window created \n";
+	grid.init(size,size,box_dimensions);
+}
+
+template<typename T, int size>
+void graphics_and_particles<T, size>::init_particles(std::vector<particle<T>> particles) {
+
+	this->main_particles.particle_container{ particles };
+
+	for (int it = 0; it < main_particles.particle_container.size(); it++) {
+
+		auto& curr_particle{ main_particles.particle_container[it] };
+		lightgrid::bounds bounds{ curr_particle.get_x_position(), curr_particle.get_y_position(), 1, 1};
+		particle.grid_node = this->grid.insert(it, bounds);
+	}
+}
+
+template<typename T,int size>
+void graphics_and_particles<T,size>::check_edge() {
+	for (auto& itr : main_particles.particle_container) {
+		int i = itr.get_x_position() / box_dimensions + size / 2;
+		int j = itr.get_y_position() / box_dimensions + size / 2;
+		if (i - 1 < size/8 || i + 1 > size*7/8 || j - 1 < size/8 || j + 1 > size*7/8) {
+			itr.set_x_velocity(0.0f);
+			itr.set_y_velocity(0.0f);
+		}
+	}
 }
 
 template<typename T,int size>
@@ -344,6 +377,7 @@ void graphics_and_particles<T, size>::already_updated_false() {
 		}
 	}
 }
+
 template <typename T, int size>
 void graphics_and_particles<T, size>::update_particle_gravity_grid() {
 	//is list index already updated 
@@ -360,14 +394,18 @@ void graphics_and_particles<T, size>::update_particle_gravity_grid() {
 		}
 	}
 }
+
 template <typename T, int size>
 void graphics_and_particles<T, size>::update_all_particle_states() {
+	
+	
 	put_particles_in_grid();
 	put_mass_in_grid();
 	already_updated_false();
-
 	update_particle_gravity_grid();
-	particle_interaction::update_particle_position_collection(main_particles);
+	check_edge();
+
+	particle_interaction::update_particle_position_collection(main_particles, grid);
 	particle_interaction::update_particle_velocity_collection(main_particles);
 	for (auto& itr : main_particles.particle_container) {
 		itr.set_x_accleration(0.0f);

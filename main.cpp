@@ -5,13 +5,12 @@
 
 
 
-
 int main()
 {
-    window_construction testing_window(0, 0, 2560, 1440, 2560, 1440);
-    graphics_and_particles<float, 200> * game = new graphics_and_particles<float, 200>(testing_window);
+    window_construction testing_window(0, 0, 2560, 1440, 2560, 1440,"Testing");
+    graphics_and_particles<float, 3000> * game = new graphics_and_particles<float, 3000>(testing_window);
 
-    game->main_particles.particle_container = load_from_file::load_from_file_particles<float>();
+    game->init_particles(load_from_file::load_from_file_particles<float>());
     game->create_graphics_from_particle_vector();
 
  
@@ -22,7 +21,7 @@ int main()
         game->render_window();
         game->update_all_particle_states();
         game->sync_graphics_and_particle_positions();
-        numberOfSteps++;
+        //numberOfSteps++;
     }
     auto end = std::chrono::high_resolution_clock::now();
     auto diff = end - start;

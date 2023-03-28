@@ -1,13 +1,17 @@
 #pragma once
 #include "particle_collection.hpp"
 #include <iostream>
+#include <grid.hpp>
 
 
 namespace particle_interaction {
 	template <typename T>
-	void update_particle_position_collection(particle_collection<T>& collection) {
+	void update_particle_position_collection(particle_collection<T>& collection,lightgrid::grid<int>& grid) {
 		for (auto& itr : collection.particle_container) {
+			lightgrid::bounds old_bounds{ itr.get_x_position(),itr.get_y_position(),1,1 };
 			logic_particles::update_particle_position(itr);
+			lightgrid::bounds new_bounds{ itr.get_x_position(),itr.get_y_position(),1,1 };
+			grid.update(itr.grid_node, old_bounds, new_bounds);
 		}
 	}
 
@@ -71,8 +75,8 @@ namespace particle_interaction {
 			//if (logic_particles::get_distance_between_particles(particle_1, particle_2) > particle_1.get_radius() + particle_2.get_radius()) {
 			T distance_between_particles = logic_particles::get_distance_between_particles(particle_1, particle_2);
 			T distance_from_particles_squared = distance_between_particles * distance_between_particles;
-			particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2, distance_from_particles_squared, 0.0000001));
-			particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2, distance_from_particles_squared, 0.0000001));
+			particle_1.set_x_accleration(particle_1.get_x_accleration() + logic_particles::get_force_from_gravity_x(particle_1, particle_2, distance_from_particles_squared)/particle_1.get_mass());
+			particle_1.set_y_accleration(particle_1.get_y_accleration() + logic_particles::get_force_from_gravity_y(particle_1, particle_2, distance_from_particles_squared) / particle_1.get_mass());
 			//particle_1.set_z_accleration(particle_1.get_z_accleration() + logic_particles::get_force_from_gravity_z(particle_1, particle_2, 0.00001));
 		//}
 		}

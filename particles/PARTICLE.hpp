@@ -187,6 +187,8 @@ public:
 	void debug() {
 		std::cout << get_x_accleration() << " " << get_y_accleration() << " " << get_z_accleration() << std::endl;
 	}
+	int grid_node;
+
 private:
 	vec3<T> position;
 	vec3<T> velocity;
