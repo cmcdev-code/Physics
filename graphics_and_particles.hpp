@@ -65,16 +65,6 @@ public:
 	void render_window();
 
 
-	//void create_graphics_from_particle_vector() {
-	//	for (auto& itr : main_particles.particle_container) {
-	//		sf::CircleShape shape(itr.get_radius());
-	//		shape.setPosition(itr.get_x_position(), itr.get_y_position());
-	//		shape.setFillColor(sf::Color::Blue);
-	//		shape.setOrigin(itr.get_radius(), itr.get_radius());
-	//		graphics_window.graphics_of_particles.push_back(shape);
-	//	}
-	//}
-
 private:
 	//List of indices to the particle collection at a specific grid index
 	std::list<int> grid_of_particle_indices[size][size];
@@ -159,12 +149,12 @@ void graphics_and_particles<T, size>::change_color_of_grid_index(short x, short 
 template<typename T, int size>
 void graphics_and_particles<T, size>::create_graphics_from_particle_vector() {
 	for (auto& itr : main_particles.particle_container) {
-		sf::RectangleShape shape(sf::Vector2f(itr.get_radius(), itr.get_radius()));
+		sf::CircleShape shape(itr.get_radius());
 		shape.setPosition(itr.get_x_position(), itr.get_y_position());
 		shape.setFillColor(sf::Color::Blue);
 		shape.setOrigin(itr.get_radius(), itr.get_radius());
 		graphics_window.graphics_of_particles.push_back(shape);
-	}
+		}
 }
 template <typename T, int size>
 int graphics_and_particles<T, size>::check_for_corner(int grid_x, int grid_y) {
