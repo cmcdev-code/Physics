@@ -11,4 +11,4 @@ Some things that I plan on adding into this version in not particular order..
  
 If you are interested in running this right now it currently only works in Visual Studio specifically windows only on x64
 
-![example](.\example\particles_test1.gif)
+![example](example\particles_test1.gif)
