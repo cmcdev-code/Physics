@@ -140,10 +140,9 @@
   <ItemGroup>
     <ClInclude Include="graphics_and_particles.hpp" />
     <ClInclude Include="renderer.hpp" />
-    <ClInclude Include="PARTICLE.hpp" />
-    <ClInclude Include="particle_collection.hpp" />
-    <ClInclude Include="particle_interactions.hpp" />
-    <ClInclude Include="save_and_load.hpp" />
+    <ClInclude Include="particles\PARTICLE.hpp" />
+    <ClInclude Include="particles\particle_interactions.hpp" />
+    <ClInclude Include="load\save_and_load.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

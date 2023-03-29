@@ -18,7 +18,7 @@ int main()
     game->graphics_window.view.zoom(5.0f);
     int numberOfSteps = 0;
     auto start= std::chrono::high_resolution_clock::now();
-    while (numberOfSteps<100) {
+    while (numberOfSteps<100000) {
         game->render_window();
         game->update_all_particle_states();
         game->sync_graphics_and_particle_positions();
