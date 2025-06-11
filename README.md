@@ -1,14 +1,9 @@
-# Physics
-This is a particle simulation that I am currently working on. 
-This is a newer version that I am trying to make better then my previous attempt at one.
-With this one I plan on abstracting things more such as the graphics vs the actual logic in the physics.
 
-Some things that I plan on adding into this version in not particular order..
-  A way to save the state of the system and load it up again 
-  A grid system that will provide a much faster simulation at the cost of some realism.
-  A easy way to see the total ammount of energy in the system.
-  A way to test differnt changes and see how they effect the system easier. 
- 
-If you are interested in running this right now it currently only works in Visual Studio specifically windows only on x64
+This is a particle simulation that I created during my sophomore year of university.
 
+I am not proud of this code now, largely due to the inaccurate way I applied the kinematic equations. I used a 'step' for time and simply added acceleration to velocity and then velocity to position, instead of numerically solving the integral.
+
+If I were to do this now, I would use a method more akin to Monte Carlo integration and research some numerical analysis techniques to achieve a tolerable error, $\epsilon$.
+
+Nonetheless, this was part of my programming journey, so I will leave it up.
 ![example](./example/particles_test1.gif)
